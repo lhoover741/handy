@@ -14,6 +14,31 @@ Tagline:
 - `about.html` - About page
 - `contact.html` - Contact page and FAQ
 
+## Cloudflare Worker Form Backend
+
+The free estimate forms now submit to:
+
+```text
+/api/estimate
+```
+
+Worker files are included here:
+
+```text
+workers/estimate-worker/
+```
+
+The Worker supports:
+
+- Form submission handling
+- Required field validation
+- Honeypot spam field
+- Optional D1 database storage
+- Optional Resend email notifications
+- Optional R2 photo storage
+
+See `workers/estimate-worker/README.md` for setup commands.
+
 ## Brand Colors
 
 - Deep Navy: `#0F172A`
@@ -31,36 +56,8 @@ Search the project for these placeholders and replace them when ready:
 - `info@godirecthomeservices.com`
 - `[City/Area]`
 - `Business hours`
+- `https://godirecthomeservices.com` inside `workers/estimate-worker/wrangler.toml`
 
-## Form Note
+## GitHub Note
 
-The free estimate form is currently front-end only. It validates basic fields and shows a confirmation message, but it does not send submissions yet.
-
-Recommended options:
-- Formspree
-- Netlify Forms
-- Cloudflare Worker endpoint
-- Custom backend/API
-- Google Forms embed
-
-## GitHub Upload
-
-If the GitHub connector is blocked, upload these files manually to the `handy` repo or run:
-
-```bash
-git clone https://github.com/YOUR-USERNAME/handy.git
-cp -R handy-site-files/* handy/
-cd handy
-git add .
-git commit -m "Add Go Direct Home Services website draft"
-git push
-```
-
-## Deployment
-
-This site can be deployed on:
-- GitHub Pages
-- Cloudflare Pages
-- Netlify
-- Vercel
-- Any static hosting service
+The project is ready to push to a repo named `handy`, but the GitHub connector returned `403 - Sorry. Your account was suspended`. Once GitHub access is restored, upload these files or push this folder into the repo.
