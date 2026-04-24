@@ -21,23 +21,66 @@ if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
 
-const estimateForm = document.querySelector("[data-estimate-form]");
-if (estimateForm) {
-  estimateForm.addEventListener("submit", (event) => {
+const estimateForms = document.querySelectorAll("[data-estimate-form]");
+
+estimateForms.forEach((estimateForm) => {
+  estimateForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(estimateForm);
-    const name = formData.get("name") || "there";
-    const service = formData.get("service") || "your project";
-
-    const message = `Thanks, ${name}. Your free estimate request for ${service} is ready to connect to your form backend.`;
+    const endpoint = estimateForm.dataset.endpoint || window.GO_DIRECT_FORM_ENDPOINT || "/api/estimate";
     const status = estimateForm.querySelector("[data-form-status]");
+    const submitButton = estimateForm.querySelector("[data-submit-button]") || estimateForm.querySelector("button[type='submit']");
+    const formData = new FormData(estimateForm);
 
-    if (status) {
-      status.textContent = message;
-      status.hidden = false;
+    formData.append("pageUrl", window.location.href);
+    formData.append("submittedAt", new Date().toISOString());
+
+    setFormStatus(status, "Sending your request...", "");
+    setButtonLoading(submitButton, true);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+      });
+
+      let result = null;
+      try {
+        result = await response.json();
+      } catch (_) {
+        result = null;
+      }
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || "Your request could not be sent. Please try again or contact us directly.");
+      }
+
+      setFormStatus(status, result.message || "Thanks. Your free estimate request was sent successfully.", "success");
+      estimateForm.reset();
+    } catch (error) {
+      setFormStatus(status, error.message || "Something went wrong. Please try again.", "error");
+    } finally {
+      setButtonLoading(submitButton, false);
     }
-
-    estimateForm.reset();
   });
+});
+
+function setFormStatus(element, message, type) {
+  if (!element) return;
+  element.textContent = message;
+  element.hidden = false;
+  element.classList.remove("success", "error");
+  if (type) element.classList.add(type);
+}
+
+function setButtonLoading(button, isLoading) {
+  if (!button) return;
+  if (isLoading) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = "Sending...";
+    button.disabled = true;
+  } else {
+    button.textContent = button.dataset.originalText || "Get My Free Estimate";
+    button.disabled = false;
+  }
 }
