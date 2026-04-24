@@ -1,0 +1,28 @@
+name = "go-direct-estimate-worker"
+main = "src/index.js"
+compatibility_date = "2026-04-24"
+
+[vars]
+BUSINESS_NAME = "Go Direct Home Services"
+ALLOWED_ORIGINS = "*"
+# ESTIMATE_NOTIFY_TO = "your-email@example.com"
+# ESTIMATE_NOTIFY_FROM = "Go Direct Home Services <estimates@yourdomain.com>"
+
+# Set secrets with:
+# npx wrangler secret put RESEND_API_KEY
+
+# Optional D1 database binding. Create the database first, then uncomment and add database_id.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "go_direct_estimates"
+# database_id = "PASTE_DATABASE_ID_HERE"
+
+# Optional R2 bucket binding for uploaded estimate photos.
+# [[r2_buckets]]
+# binding = "PHOTOS"
+# bucket_name = "go-direct-estimate-photos"
+
+# Optional route example if deploying behind your domain:
+# routes = [
+#   { pattern = "yourdomain.com/api/estimate", zone_name = "yourdomain.com" }
+# ]
