@@ -55,7 +55,7 @@
         </div>
       </aside>
 
-      <form class="form-card" data-estimate-form>
+      <form class="form-card" data-estimate-form data-endpoint="/api/estimate">
   <div class="form-grid">
     <div class="form-field">
       <label for="name">Name</label>
@@ -106,11 +106,16 @@
     <div class="form-field full">
       <label for="photos">Upload photos</label>
       <input id="photos" name="photos" type="file" accept="image/*" multiple>
-      <p class="form-note">Photos are helpful but not required. This static draft needs a form backend before photo uploads can be submitted online.</p>
+      <p class="form-note">Photos are helpful but not required. Photo storage is supported when the Cloudflare R2 bucket is configured.</p>
+    </div>
+
+    <div class="form-field hp-field" aria-hidden="true">
+      <label for="website">Website</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
     </div>
 
     <div class="form-field full">
-      <button class="btn btn-primary btn-wide" type="submit">Get My Free Estimate</button>
+      <button class="btn btn-primary btn-wide" type="submit" data-submit-button>Get My Free Estimate</button>
       <p class="form-note">By submitting, you are requesting estimate follow-up from Go Direct Home Services.</p>
       <p class="notice" data-form-status hidden></p>
     </div>
