@@ -1,3 +1,32 @@
+const workerFormStyle = document.createElement("style");
+workerFormStyle.textContent = `
+  .hp-field {
+    position: absolute !important;
+    left: -9999px !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden !important;
+  }
+
+  .notice.success {
+    background: #F0FDF4;
+    border-color: #86EFAC;
+    color: #166534;
+  }
+
+  .notice.error {
+    background: #FEF2F2;
+    border-color: #FCA5A5;
+    color: #991B1B;
+  }
+
+  button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.72;
+  }
+`;
+document.head.appendChild(workerFormStyle);
+
 const body = document.body;
 const toggle = document.querySelector("[data-menu-toggle]");
 const nav = document.querySelector("[data-nav]");
