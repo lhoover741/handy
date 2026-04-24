@@ -16,7 +16,7 @@ Tagline:
 
 ## Cloudflare Worker Form Backend
 
-The free estimate forms now submit to:
+The free estimate forms submit to:
 
 ```text
 /api/estimate
@@ -39,6 +39,50 @@ The Worker supports:
 
 See `workers/estimate-worker/README.md` for setup commands.
 
+## Quick Worker Deploy
+
+```bash
+cd workers/estimate-worker
+npm install
+npx wrangler login
+npx wrangler deploy
+```
+
+## Optional Email Setup
+
+Update these variables in `workers/estimate-worker/wrangler.toml`:
+
+```toml
+ESTIMATE_NOTIFY_TO = "your-email@example.com"
+ESTIMATE_NOTIFY_FROM = "Go Direct Home Services <estimates@yourdomain.com>"
+```
+
+Then add the Resend API key as a secret:
+
+```bash
+npx wrangler secret put RESEND_API_KEY
+```
+
+## Optional D1 Storage
+
+```bash
+npx wrangler d1 create go_direct_estimates
+```
+
+Copy the returned `database_id` into `workers/estimate-worker/wrangler.toml`, uncomment the D1 block, then run:
+
+```bash
+npx wrangler d1 execute go_direct_estimates --file=./migrations/0001_create_estimate_requests.sql --remote
+```
+
+## Optional R2 Photo Storage
+
+```bash
+npx wrangler r2 bucket create go-direct-estimate-photos
+```
+
+Then uncomment the R2 bucket block in `workers/estimate-worker/wrangler.toml`.
+
 ## Brand Colors
 
 - Deep Navy: `#0F172A`
@@ -56,8 +100,6 @@ Search the project for these placeholders and replace them when ready:
 - `info@godirecthomeservices.com`
 - `[City/Area]`
 - `Business hours`
-- `https://godirecthomeservices.com` inside `workers/estimate-worker/wrangler.toml`
-
-## GitHub Note
-
-The project is ready to push to a repo named `handy`, but the GitHub connector returned `403 - Sorry. Your account was suspended`. Once GitHub access is restored, upload these files or push this folder into the repo.
+- `ESTIMATE_NOTIFY_TO`
+- `ESTIMATE_NOTIFY_FROM`
+- `ALLOWED_ORIGINS`
