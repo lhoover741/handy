@@ -22,6 +22,11 @@ export async function onRequestGet({ request, env }) {
     ok: true,
     service: env.BUSINESS_NAME || "Go Direct Home Services",
     endpoint: "/api/estimate",
+    bindings: {
+      d1: Boolean(env.DB),
+      r2: Boolean(env.PHOTOS),
+      resend: Boolean(env.RESEND_API_KEY && env.ESTIMATE_NOTIFY_TO && env.ESTIMATE_NOTIFY_FROM),
+    },
   });
 }
 
@@ -43,30 +48,51 @@ export async function onRequestPost({ request, env }) {
       return json(request, env, { ok: false, message: errors.join(" ") }, 400);
     }
 
-    if (!env.DB && !(env.RESEND_API_KEY && env.ESTIMATE_NOTIFY_TO && env.ESTIMATE_NOTIFY_FROM)) {
-      return json(request, env, {
-        ok: false,
-        message: "The form backend is live, but storage or email delivery is not configured yet.",
-      }, 500);
-    }
+    const delivery = {
+      d1: "not_configured",
+      email: "not_configured",
+    };
 
     if (env.DB) {
-      await saveToD1(env, normalized);
+      try {
+        await saveToD1(env, normalized);
+        delivery.d1 = "saved";
+      } catch (error) {
+        delivery.d1 = "failed";
+        console.error("D1 save failed", error);
+      }
     }
 
     if (env.RESEND_API_KEY && env.ESTIMATE_NOTIFY_TO && env.ESTIMATE_NOTIFY_FROM) {
-      await sendEmailNotification(env, normalized);
+      try {
+        await sendEmailNotification(env, normalized);
+        delivery.email = "sent";
+      } catch (error) {
+        delivery.email = "failed";
+        console.error("Email notification failed", error);
+      }
+    }
+
+    const savedOrSent = delivery.d1 === "saved" || delivery.email === "sent";
+
+    if (!savedOrSent) {
+      return json(request, env, {
+        ok: false,
+        message: buildSetupMessage(delivery),
+        delivery,
+      }, 500);
     }
 
     return json(request, env, {
       ok: true,
       message: `Thanks, ${normalized.name}. Your free estimate request was sent successfully.`,
+      delivery,
     });
   } catch (error) {
     console.error("Estimate form error", error);
     return json(request, env, {
       ok: false,
-      message: "Something went wrong while sending your request. Please try again or contact us directly.",
+      message: "The request reached the form backend, but the backend hit an unexpected error. Check the Cloudflare Pages Function logs for the exact issue.",
     }, 500);
   }
 }
@@ -92,13 +118,18 @@ async function parseMultipartSubmission(request, env) {
       };
 
       if (env.PHOTOS) {
-        const keyName = buildPhotoKey(value.name);
-        await env.PHOTOS.put(keyName, value.stream(), {
-          httpMetadata: { contentType: value.type || "application/octet-stream" },
-          customMetadata: { originalName: value.name },
-        });
-        photoInfo.key = keyName;
-        photoInfo.stored = true;
+        try {
+          const keyName = buildPhotoKey(value.name);
+          await env.PHOTOS.put(keyName, value.stream(), {
+            httpMetadata: { contentType: value.type || "application/octet-stream" },
+            customMetadata: { originalName: value.name },
+          });
+          photoInfo.key = keyName;
+          photoInfo.stored = true;
+        } catch (error) {
+          photoInfo.error = "Photo storage failed.";
+          console.error("R2 photo upload failed", error);
+        }
       }
 
       photos.push(photoInfo);
@@ -186,14 +217,27 @@ async function sendEmailNotification(env, data) {
 
   if (!response.ok) {
     const details = await response.text();
-    throw new Error(`Email notification failed: ${details}`);
+    throw new Error(`Resend API error: ${details}`);
   }
+}
+
+function buildSetupMessage(delivery) {
+  if (delivery.d1 === "failed" && delivery.email === "failed") {
+    return "The form backend is live, but D1 storage and email delivery both failed. Check the Cloudflare Pages Function logs.";
+  }
+  if (delivery.d1 === "failed") {
+    return "The form backend is live, but D1 storage failed. The most common cause is the DB binding or missing estimate_requests table.";
+  }
+  if (delivery.email === "failed") {
+    return "The form backend is live, but email delivery failed. Check the Resend API key, verified sender domain, and sender address.";
+  }
+  return "The form backend is live, but neither D1 storage nor email delivery is configured yet.";
 }
 
 function buildEmailText(env, data) {
   const businessName = env.BUSINESS_NAME || "Go Direct Home Services";
   const photos = (data.photos || []).length
-    ? data.photos.map((photo) => `- ${photo.name} (${photo.stored ? `stored: ${photo.key}` : "not stored"})`).join("\n")
+    ? data.photos.map((photo) => `- ${photo.name} (${photo.stored ? `stored: ${photo.key}` : photo.error || "not stored"})`).join("\n")
     : "No photos uploaded.";
 
   return `${businessName} received a new free estimate request.\n\n` +
