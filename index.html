@@ -12,10 +12,7 @@
   <div class="container nav-wrap">
     <a class="brand" href="index.html" aria-label="Go Direct Home Services home">
       <span class="brand-mark">GD</span>
-      <span class="brand-text">
-        <span>Go Direct</span>
-        <span>Home Services</span>
-      </span>
+      <span class="brand-text"><span>Go Direct</span><span>Home Services</span></span>
     </a>
 
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle>
@@ -24,86 +21,74 @@
 
     <nav class="nav-menu" data-nav>
       <a class="nav-link active" href="index.html">Home</a>
-<a class="nav-link " href="services.html">Services</a>
-<a class="nav-link " href="free-estimate.html">Free Estimate</a>
-<a class="nav-link " href="about.html">About</a>
-<a class="nav-link " href="contact.html">Contact</a>
-      <a class="btn btn-primary nav-cta" href="free-estimate.html">Request a Free Estimate</a>
+      <a class="nav-link" href="services.html">Services</a>
+      <a class="nav-link" href="free-estimate.html">Free Estimate</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link" href="contact.html">Contact</a>
+      <a class="btn btn-primary nav-cta" href="#estimate">Request a Free Estimate</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="hero">
+  <section class="hero hero-tight">
     <div class="container hero-grid">
       <div>
-        <div class="eyebrow">Local handyman services • Free estimates</div>
+        <div class="eyebrow">Free estimates • Small jobs welcome • Local home service</div>
         <h1>Reliable Handyman Services, <span class="highlight">Done Direct</span></h1>
-        <p>Go Direct Home Services helps with furniture assembly, TV mounting, basic appliance installation, door repairs, shelves, rods, hooks, blinds, window treatments, cable management, and general home maintenance.</p>
+        <p>Assembly, mounting, repairs, basic appliance installation, shelves, rods, hooks, blinds, window treatments, cable management, and everyday home maintenance.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="free-estimate.html">Request a Free Estimate</a>
+          <a class="btn btn-primary" href="#estimate">Request a Free Estimate</a>
           <a class="btn btn-light" href="services.html">View Services</a>
         </div>
-        <div class="hero-checks" aria-label="Service highlights">
-          <span>Assembly</span>
-          <span>Mounting</span>
-          <span>Repairs</span>
-          <span>Installation</span>
+        <div class="trust-strip" aria-label="Trust highlights">
+          <span>Clear communication</span>
+          <span>Careful installation</span>
+          <span>Clean work area</span>
         </div>
       </div>
 
-      <div class="hero-card">
-        <div class="hero-visual" role="img" aria-label="Modern home service illustration">
-          <div class="floating-card">
-            <strong>Assembly. Mounting. Repairs. Installation.</strong>
-            <p><span class="highlight">Done Direct.</span> Send project details and get a free estimate.</p>
-          </div>
-        </div>
-      </div>
+      <aside class="quick-estimate-card" aria-label="Quick estimate form preview">
+        <div class="card-label">Quick estimate</div>
+        <h2>Tell us what needs to be done.</h2>
+        <p>Photos help, but they are not required. Send the basics and we’ll follow up with next steps.</p>
+        <form class="mini-form" data-estimate-form data-endpoint="/api/estimate">
+          <input name="name" type="text" placeholder="Name" autocomplete="name" required>
+          <input name="phone" type="tel" placeholder="Phone number" autocomplete="tel" required>
+          <select name="service" required>
+            <option value="">Service needed</option>
+            <option>Furniture assembly</option>
+            <option>TV mounting</option>
+            <option>Basic appliance installation</option>
+            <option>Door repair or adjustment</option>
+            <option>Shelf, rod, or hook installation</option>
+            <option>Blinds or window treatment installation</option>
+            <option>Cable management</option>
+            <option>Home maintenance</option>
+          </select>
+          <textarea name="description" placeholder="Brief project description"></textarea>
+          <input class="hp-field" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-primary btn-wide" type="submit" data-submit-button>Get My Free Estimate</button>
+          <p class="form-note">No obligation. Small jobs are welcome.</p>
+          <p class="notice" data-form-status hidden></p>
+        </form>
+      </aside>
     </div>
   </section>
 
   <section class="section section-soft">
     <div class="container">
       <div class="section-header center">
-        <div class="section-kicker">What we handle</div>
-        <h2>Professional home services for everyday projects</h2>
-        <p>Clean, straightforward help for the small repairs, installations, and maintenance tasks that keep your home moving.</p>
+        <div class="section-kicker">Services</div>
+        <h2>Choose the project type that fits your need</h2>
+        <p>Specific services are easier to understand, easier to quote, and easier to schedule.</p>
       </div>
 
-      <div class="grid grid-3">
-        <article class="card service-card">
-          <div class="icon">A</div>
-          <h3>Assembly Services</h3>
-          <p>Furniture assembly for beds, desks, tables, chairs, cabinets, storage units, and household items.</p>
-          <ul class="service-list">
-            <li>Beds, desks, and tables</li>
-            <li>Chairs and cabinets</li>
-            <li>Storage units and shelves</li>
-          </ul>
-        </article>
-
-        <article class="card service-card">
-          <div class="icon">M</div>
-          <h3>Mounting & Installation</h3>
-          <p>TV mounting, shelf installation, closet rods, hooks, curtain rods, blinds, drapes, and window treatments.</p>
-          <ul class="service-list">
-            <li>TV mounting</li>
-            <li>Shelves, rods, and hooks</li>
-            <li>Blinds and window treatments</li>
-          </ul>
-        </article>
-
-        <article class="card service-card">
-          <div class="icon">R</div>
-          <h3>Repairs & Maintenance</h3>
-          <p>Door adjustments, cable repairs, cable management, minor home repairs, and general handyman repair help.</p>
-          <ul class="service-list">
-            <li>Door repairs and adjustments</li>
-            <li>Cable management</li>
-            <li>Small home fixes</li>
-          </ul>
-        </article>
+      <div class="grid grid-4 service-scan-grid">
+        <a class="card service-card link-card" href="services.html#assembly"><div class="icon">A</div><h3>Assembly</h3><p>Furniture, beds, desks, tables, cabinets, chairs, and storage units.</p></a>
+        <a class="card service-card link-card" href="services.html#mounting"><div class="icon">M</div><h3>Mounting</h3><p>TVs, shelves, closet rods, hooks, curtain rods, blinds, and drapes.</p></a>
+        <a class="card service-card link-card" href="services.html#appliance"><div class="icon">I</div><h3>Installation</h3><p>Basic appliance installation, setup, and replacement assistance.</p></a>
+        <a class="card service-card link-card" href="services.html#repairs"><div class="icon">R</div><h3>Repairs</h3><p>Door adjustments, cable repairs, cable management, and small home repairs.</p></a>
       </div>
     </div>
   </section>
@@ -111,23 +96,23 @@
   <section class="section">
     <div class="container about-grid">
       <div>
-        <div class="section-kicker">About Go Direct</div>
-        <h2>Dependable help for homeowners, renters, landlords, and property managers</h2>
-        <p>Go Direct Home Services provides reliable handyman help for small repairs, installations, assembly projects, and home maintenance needs. Whether you need a TV mounted, furniture assembled, shelves installed, blinds replaced, or a door adjusted, we focus on clean work, clear communication, and dependable service.</p>
-        <div class="badge-row">
-          <span class="badge">Free estimates</span>
-          <span class="badge">Clear communication</span>
-          <span class="badge">Careful installation</span>
-          <span class="badge">Clean work area</span>
+        <div class="section-kicker">Why Go Direct</div>
+        <h2>Reliable help without making the process complicated</h2>
+        <p>Go Direct Home Services helps homeowners, renters, landlords, and property managers finish everyday home projects with clean work, clear communication, and dependable service.</p>
+        <div class="benefit-list">
+          <div class="check-item"><strong>Free estimates</strong><span>Send the project details before booking.</span></div>
+          <div class="check-item"><strong>Small jobs welcome</strong><span>For the tasks that are too small for a contractor but still need care.</span></div>
+          <div class="check-item"><strong>Professional service</strong><span>Respectful, straightforward, and focused on doing the work right.</span></div>
         </div>
       </div>
 
-      <div class="about-panel">
+      <div class="about-panel process-panel">
+        <div class="section-kicker">Simple process</div>
         <div class="stat-grid">
           <div class="stat"><strong>01</strong><span>Send project details</span></div>
-          <div class="stat"><strong>02</strong><span>Get a free estimate</span></div>
-          <div class="stat"><strong>03</strong><span>Schedule service</span></div>
-          <div class="stat"><strong>04</strong><span>Get it done direct</span></div>
+          <div class="stat"><strong>02</strong><span>Share photos if helpful</span></div>
+          <div class="stat"><strong>03</strong><span>Receive a free estimate</span></div>
+          <div class="stat"><strong>04</strong><span>Schedule the service</span></div>
         </div>
       </div>
     </div>
@@ -135,81 +120,54 @@
 
   <section class="section section-dark">
     <div class="container">
-      <div class="cta-band">
+      <div class="cta-band cta-band-dark">
         <div>
           <h2>Need Something Assembled, Mounted, Repaired, or Installed?</h2>
-          <p>Send the details of your project and Go Direct Home Services will provide a free estimate. Photos are helpful but not required.</p>
+          <p>Send the details of your project. Photos are helpful but not required.</p>
         </div>
-        <a class="btn btn-primary" href="free-estimate.html">Get My Free Estimate</a>
+        <a class="btn btn-primary" href="#estimate">Get My Free Estimate</a>
       </div>
     </div>
   </section>
 
-  <section class="section section-soft">
-    <div class="container">
-      <div class="section-header center">
-        <div class="section-kicker">Why choose us</div>
-        <h2>Why Customers Choose Go Direct</h2>
-      </div>
+  <section class="section section-soft" id="estimate">
+    <div class="container split">
+      <aside class="sticky-box">
+        <div class="section-kicker">Free estimate</div>
+        <h2>Request service in one step.</h2>
+        <p>Use this form for furniture assembly, TV mounting, basic appliance installation, shelves, rods, hooks, blinds, window treatments, door repairs, cable management, and home maintenance.</p>
+        <div class="badge-row"><span class="badge">No obligation</span><span class="badge">Photos optional</span><span class="badge">Clear follow-up</span></div>
+      </aside>
 
-      <div class="grid grid-4">
-        <div class="card"><div class="icon">✓</div><h3>Free estimates</h3><p>Share the details and get clear next steps before scheduling.</p></div>
-        <div class="card"><div class="icon">✓</div><h3>Reliable scheduling</h3><p>Service is planned around your project needs and availability.</p></div>
-        <div class="card"><div class="icon">✓</div><h3>Professional service</h3><p>Friendly, respectful service for everyday home projects.</p></div>
-        <div class="card"><div class="icon">✓</div><h3>Small jobs welcome</h3><p>Help with the smaller tasks that still need to be done right.</p></div>
-      </div>
+      <form class="form-card" data-estimate-form data-endpoint="/api/estimate">
+        <div class="form-grid">
+          <div class="form-field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="form-field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+          <div class="form-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email"></div>
+          <div class="form-field"><label for="area">Service address or service area</label><input id="area" name="area" type="text" autocomplete="street-address" placeholder="[City/Area]"></div>
+          <div class="form-field"><label for="service">Type of service needed</label><select id="service" name="service" required><option value="">Select a service</option><option>Furniture assembly</option><option>TV mounting</option><option>Basic appliance installation</option><option>Door repair or adjustment</option><option>Cable repair or cable management</option><option>Shelf, rod, or hook installation</option><option>Blinds or window treatment installation</option><option>Home maintenance</option><option>Other small home repair</option></select></div>
+          <div class="form-field"><label for="preferred">Preferred date and time</label><input id="preferred" name="preferred" type="text" placeholder="Example: Friday afternoon"></div>
+          <div class="form-field full"><label for="description">Project description</label><textarea id="description" name="description" placeholder="Include item count, wall type, item size, brand/model, or any helpful details."></textarea></div>
+          <div class="form-field full"><label for="photos">Upload photos</label><input id="photos" name="photos" type="file" accept="image/*" multiple><p class="form-note">Photos are helpful but not required.</p></div>
+          <div class="form-field hp-field" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="form-field full"><button class="btn btn-primary btn-wide" type="submit" data-submit-button>Get My Free Estimate</button><p class="form-note">By submitting, you are requesting estimate follow-up from Go Direct Home Services.</p><p class="notice" data-form-status hidden></p></div>
+        </div>
+      </form>
     </div>
   </section>
 </main>
 
+<a class="mobile-sticky-cta" href="#estimate">Request a Free Estimate</a>
+
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        <h3>Go Direct Home Services</h3>
-        <p>Assembly. Mounting. Repairs. Installation. <span class="highlight">Done Direct.</span></p>
-        <div class="badge-row">
-          <span class="badge">Free Estimates</span>
-          <span class="badge">Small Jobs Welcome</span>
-          <span class="badge">Local Home Service</span>
-        </div>
-      </div>
-
-      <div>
-        <h4>Services</h4>
-        <div class="footer-links">
-          <a href="services.html#assembly">Furniture Assembly</a>
-          <a href="services.html#mounting">TV Mounting</a>
-          <a href="services.html#appliance">Appliance Installation</a>
-          <a href="services.html#repairs">Door & Cable Repairs</a>
-        </div>
-      </div>
-
-      <div>
-        <h4>Company</h4>
-        <div class="footer-links">
-          <a href="about.html">About</a>
-          <a href="free-estimate.html">Free Estimate</a>
-          <a href="contact.html">Contact</a>
-          <a href="services.html#maintenance">Home Maintenance</a>
-        </div>
-      </div>
-
-      <div>
-        <h4>Contact</h4>
-        <div class="footer-links">
-          <a href="tel:+10000000000">(000) 000-0000</a>
-          <a href="sms:+10000000000">Text for Estimate</a>
-          <a href="mailto:info@godirecthomeservices.com">info@godirecthomeservices.com</a>
-          <span>Serving [City/Area] and surrounding communities.</span>
-        </div>
-      </div>
+      <div><h3>Go Direct Home Services</h3><p>Assembly. Mounting. Repairs. Installation. <span class="highlight">Done Direct.</span></p><div class="badge-row"><span class="badge">Free Estimates</span><span class="badge">Small Jobs Welcome</span><span class="badge">Local Home Service</span></div></div>
+      <div><h4>Services</h4><div class="footer-links"><a href="services.html#assembly">Furniture Assembly</a><a href="services.html#mounting">TV Mounting</a><a href="services.html#appliance">Appliance Installation</a><a href="services.html#repairs">Door & Cable Repairs</a></div></div>
+      <div><h4>Company</h4><div class="footer-links"><a href="about.html">About</a><a href="free-estimate.html">Free Estimate</a><a href="contact.html">Contact</a><a href="services.html#maintenance">Home Maintenance</a></div></div>
+      <div><h4>Contact</h4><div class="footer-links"><a href="tel:+10000000000">(000) 000-0000</a><a href="sms:+10000000000">Text for Estimate</a><a href="mailto:info@godirecthomeservices.com">info@godirecthomeservices.com</a><span>Serving [City/Area] and surrounding communities.</span></div></div>
     </div>
-
-    <div class="footer-bottom">
-      <span>© <span data-year></span> Go Direct Home Services. All rights reserved.</span>
-      <span>Professional home services. Free estimates available.</span>
-    </div>
+    <div class="footer-bottom"><span>© <span data-year></span> Go Direct Home Services. All rights reserved.</span><span>Professional home services. Free estimates available.</span></div>
   </div>
 </footer>
 <script src="assets/js/main.js"></script>
