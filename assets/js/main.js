@@ -1,72 +1,58 @@
-const workerFormStyle = document.createElement("style");
-workerFormStyle.textContent = `
-  .hp-field { position: absolute !important; left: -9999px !important; height: 1px !important; width: 1px !important; overflow: hidden !important; }
-  .notice.success { background: #F0FDF4; border-color: #86EFAC; color: #166534; }
-  .notice.error { background: #FEF2F2; border-color: #FCA5A5; color: #991B1B; }
-  button[disabled] { cursor: not-allowed; opacity: 0.72; }
-`;
-document.head.appendChild(workerFormStyle);
+// EXISTING CODE ABOVE...
 
-const body = document.body;
-const toggle = document.querySelector("[data-menu-toggle]");
-const nav = document.querySelector("[data-nav]");
-
-if (toggle && nav) {
-  toggle.addEventListener("click", () => {
-    const isOpen = body.classList.toggle("nav-open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
-  });
-  nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      body.classList.remove("nav-open");
-      toggle.setAttribute("aria-expanded", "false");
-    });
-  });
-}
-
-const yearEl = document.querySelector("[data-year]");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-// 🔥 SCROLL REVEAL
-const revealEls = document.querySelectorAll(".section, .card, .service-detail-card, .cta-band, .about-panel");
-revealEls.forEach(el => el.classList.add("reveal"));
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
+// 🔢 COUNTER ANIMATION
+document.querySelectorAll('[data-counter]').forEach(el => {
+  const target = +el.getAttribute('data-counter');
+  let count = 0;
+  const speed = 30;
+  const update = () => {
+    const increment = target / 40;
+    count += increment;
+    if (count < target) {
+      el.textContent = Math.ceil(count);
+      requestAnimationFrame(update);
+    } else {
+      el.textContent = target;
     }
-  });
-}, { threshold: 0.12 });
-
-revealEls.forEach(el => observer.observe(el));
-
-// FORM HANDLER
-const estimateForms = document.querySelectorAll("[data-estimate-form]");
-estimateForms.forEach((estimateForm) => {
-  estimateForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const endpoint = estimateForm.dataset.endpoint || "/api/estimate";
-    const status = estimateForm.querySelector("[data-form-status]");
-    const submitButton = estimateForm.querySelector("[data-submit-button]");
-    const formData = new FormData(estimateForm);
-
-    setFormStatus(status, "Sending your request...");
-    submitButton.disabled = true;
-
-    try {
-      const response = await fetch(endpoint, { method: "POST", body: formData });
-      const result = await response.json();
-      if (!result.ok) throw new Error();
-      setFormStatus(status, "Request sent successfully.", "success");
-      estimateForm.reset();
-    } catch {
-      setFormStatus(status, "Something went wrong.", "error");
-    } finally {
-      submitButton.disabled = false;
-    }
-  });
+  };
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) update();
+  }, { threshold: .5 }).observe(el);
 });
 
-function setFormStatus(el, msg, type){ if(!el) return; el.textContent = msg; el.hidden = false; el.className = "notice " + (type || ""); }
+// 🔀 BEFORE/AFTER SLIDER
+const slider = document.querySelector('[data-slider]');
+if (slider) {
+  const range = slider.querySelector('[data-slider-range]');
+  const after = slider.querySelector('[data-after]');
+  const handle = slider.querySelector('[data-slider-handle]');
+
+  const updateSlider = (value) => {
+    after.style.width = value + '%';
+    handle.style.left = value + '%';
+  };
+
+  range.addEventListener('input', (e) => updateSlider(e.target.value));
+  updateSlider(50);
+}
+
+// ⚡ PAGE TRANSITION
+document.querySelectorAll('a').forEach(link => {
+  if (link.href && link.hostname === window.location.hostname) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.body.style.opacity = '0';
+      setTimeout(() => window.location = link.href, 200);
+    });
+  }
+});
+window.addEventListener('pageshow', () => {
+  document.body.style.opacity = '1';
+});
+
+// 👆 BUTTON TAP EFFECT
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('mousedown', () => btn.style.transform = 'scale(0.96)');
+  btn.addEventListener('mouseup', () => btn.style.transform = '');
+  btn.addEventListener('mouseleave', () => btn.style.transform = '');
+});
