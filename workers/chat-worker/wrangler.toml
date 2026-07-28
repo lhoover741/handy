@@ -1,0 +1,17 @@
+name = "go-direct-chat-worker"
+main = "src/index.js"
+compatibility_date = "2026-04-24"
+
+[vars]
+BUSINESS_NAME = "Go Direct Home Services"
+OPENROUTER_MODEL = "openai/gpt-4o-mini"
+ALLOWED_ORIGINS = "https://go.govdirect.org"
+ESTIMATE_URL = "https://go.govdirect.org/free-estimate.html"
+
+# Add the OpenRouter key as an encrypted secret:
+# npx wrangler secret put OPENROUTER_API_KEY
+
+# Route example after the domain is connected to Cloudflare:
+# routes = [
+#   { pattern = "go.govdirect.org/api/chat", zone_name = "govdirect.org" }
+# ]
